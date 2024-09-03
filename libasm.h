@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-size_t  fr_strlen(const char *str);
+size_t  ft_strlen(const char *str);
 char    *ft_strcpy(char *dest, const char *src);
 ssize_t ft_read(int fd, void *buf, size_t count);
 int     ft_strcmp(const char *str1, const char *str2);
