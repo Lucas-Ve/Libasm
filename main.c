@@ -26,6 +26,40 @@ void test_write(const char *test_name, int fd, const char *buf, size_t count) {
     printf("\n");
 }
 
+void test_read(const char *test_name, int fd, void *buf, size_t count) {
+    ssize_t result_std, result_ft;
+
+    printf("===== %s =====\n", test_name);
+
+    // Test avec read standard
+    errno = 0;  // Réinitialiser errno avant chaque appel
+    result_std = read(fd, buf, count);
+    if (result_std == -1) {
+        printf("read failed: errno = %d (%s)\n", errno, strerror(errno));
+    } else {
+        printf("read succeeded: read %zd bytes\n", result_std);
+        // Afficher le buffer lu si applicable
+        if (buf != NULL) {
+            printf("Buffer: \"%.*s\"\n", (int)result_std, (char *)buf);
+        }
+    }
+
+    // Test avec ft_read
+    errno = 0;  // Réinitialiser errno avant chaque appel
+    result_ft = ft_read(fd, buf, count);
+    if (result_ft == -1) {
+        printf("ft_read failed: errno = %d (%s)\n", errno, strerror(errno));
+    } else {
+        printf("ft_read succeeded: read %zd bytes\n", result_ft);
+        // Afficher le buffer lu si applicable
+        if (buf != NULL) {
+            printf("Buffer: \"%.*s\"\n", (int)result_ft, (char *)buf);
+        }
+    }
+
+    printf("\n");
+}
+
 int main(void){
     // Différentes chaînes pour les tests
     const char *test_strings[] = {
@@ -131,6 +165,18 @@ int main(void){
 
     // Test 3 : Ecrire avec un pointeur NULL pour le buffer, doit échouer
     test_write("Test 3: write with NULL buffer", 1, NULL, 10);
+
+    char buffer[100];  // Buffer pour stocker les données lues
+
+    // Test 1 : Lire depuis stdin (file descriptor 0), doit réussir
+    printf("Veuillez taper quelque chose pour le Test 1 (stdin) :\n");
+    test_read("Test 1: read from stdin", 0, buffer, sizeof(buffer));
+
+    // Test 2 : Lire avec un mauvais descripteur de fichier (-1), doit échouer
+    test_read("Test 2: read with invalid file descriptor (-1)", -1, buffer, sizeof(buffer));
+
+    // Test 3 : Lire dans un pointeur NULL pour le buffer, doit échouer
+    test_read("Test 3: read with NULL buffer", 0, NULL, sizeof(buffer));
     
     return 0;
 }
