@@ -7,7 +7,7 @@ SRCS_C = main.c
 
 AS = nasm -felf64
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIE
 
 OBJS_ASM = ${SRCS_ASM:.s=.o}
 OBJS_C = ${SRCS_C:.c=.o}
@@ -19,7 +19,7 @@ ${NAME}: ${OBJS_ASM}
 all: ${NAME}
 
 exec: ${NAME} ${OBJS_C}
-	${CC} ${CFLAGS} ${OBJS_C} ${NAME} -o ${EXEC}
+	${CC} ${CFLAGS} ${OBJS_C} ${NAME} -o ${EXEC} -no-pie
 
 .s.o:
 	${AS} -o $@ $<

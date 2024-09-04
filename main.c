@@ -1,5 +1,31 @@
 #include "libasm.h"
 
+void test_write(const char *test_name, int fd, const char *buf, size_t count) {
+    ssize_t result_std, result_ft;
+
+    printf("===== %s =====\n", test_name);
+
+    // Test avec write standard
+    errno = 0; // Réinitialiser errno avant chaque appel
+    result_std = write(fd, buf, count);
+    if (result_std == -1) {
+        printf("write failed: errno = %d (%s)\n", errno, strerror(errno));
+    } else {
+        printf("write succeeded: wrote %zd bytes\n", result_std);
+    }
+
+    // Test avec ft_write
+    errno = 0; // Réinitialiser errno avant chaque appel
+    result_ft = ft_write(fd, buf, count);
+    if (result_ft == -1) {
+        printf("ft_write failed: errno = %d (%s)\n", errno, strerror(errno));
+    } else {
+        printf("ft_write succeeded: wrote %zd bytes\n", result_ft);
+    }
+
+    printf("\n");
+}
+
 int main(void){
     // Différentes chaînes pour les tests
     const char *test_strings[] = {
@@ -94,5 +120,17 @@ int main(void){
         }
         printf("--------------------------\n");
     }
+
+    const char *message = "Hello, World!\n";
+
+    // Test 1 : Ecrire sur stdout (file descriptor 1), doit réussir
+    test_write("Test 1: write on stdout", 1, message, strlen(message));
+
+    // Test 2 : Ecrire avec un mauvais descripteur de fichier (-1), doit échouer
+    test_write("Test 2: write with invalid file descriptor (-1)", -1, message, strlen(message));
+
+    // Test 3 : Ecrire avec un pointeur NULL pour le buffer, doit échouer
+    test_write("Test 3: write with NULL buffer", 1, NULL, 10);
+    
     return 0;
 }
