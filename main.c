@@ -73,6 +73,7 @@ int main(void){
     };
 
     // Itération sur les chaînes de test
+    printf("-------------------ft_strlen-------------------\n");
     for (int i = 0; test_strings[i] != NULL; i++) {
         const char *str = test_strings[i];
         size_t len_std = strlen(str);       // Longueur avec la fonction standard
@@ -96,6 +97,7 @@ int main(void){
     char dest2[100];
 
     // Itération sur les chaînes de test
+    printf("-------------------ft_strcpy-------------------\n");
     for (int i = 0; test_strings[i] != NULL; i++) {
         const char *str = test_strings[i];
 
@@ -132,6 +134,7 @@ int main(void){
     };
 
     // Itérer sur les cas de test
+    printf("-------------------ft_strcmp-------------------\n");
     for (int i = 0; test_cases[i][0] != NULL; i++) {
         const char *s1 = test_cases[i][0];
         const char *s2 = test_cases[i][1];
@@ -156,6 +159,7 @@ int main(void){
     }
 
     const char *message = "Hello, World!\n";
+    printf("-------------------ft_write-------------------\n");
 
     // Test 1 : Ecrire sur stdout (file descriptor 1), doit réussir
     test_write("Test 1: write on stdout", 1, message, strlen(message));
@@ -169,6 +173,7 @@ int main(void){
     char buffer[100];  // Buffer pour stocker les données lues
 
     // Test 1 : Lire depuis stdin (file descriptor 0), doit réussir
+    printf("-------------------ft_read-------------------\n");
     printf("Veuillez taper quelque chose pour le Test 1 (stdin) :\n");
     test_read("Test 1: read from stdin", 0, buffer, sizeof(buffer));
 
@@ -178,5 +183,57 @@ int main(void){
     // Test 3 : Lire dans un pointeur NULL pour le buffer, doit échouer
     test_read("Test 3: read with NULL buffer", 0, NULL, sizeof(buffer));
     
+    printf("-------------------ft_strdup-------------------\n");
+    printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("test12345"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("test12345"));
+	printf("----------\n");
+    	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("a"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("a"));
+	printf("----------\n");
+    	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("test"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("test"));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup(""));
+    	printf("strdup : \n");
+	printf("%s\n", strdup(""));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("\n"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("\n"));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup(""));
+    	printf("strdup : \n");
+	printf("%s\n", strdup(""));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("abc"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("abc"));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("asl;fjl;asdjfjkasdl;fjadjsf"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("asl;fjl;asdjfjkasdl;fjadjsf"));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("yope\0la"));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("yope\0la"));
+	printf("----------\n");
+	printf("ft_strdup : \n");
+	printf("%s\n", ft_strdup("Lorem ipsum dolor sit amet, consectetur adipiscingelit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquambibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Crasvolutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisifelis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellusac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posueretortor, sit amet consequat amet."));
+    	printf("strdup : \n");
+	printf("%s\n", strdup("Lorem ipsum dolor sit amet, consectetur adipiscingelit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquambibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Crasvolutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisifelis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellusac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posueretortor, sit amet consequat amet."));
+
+
     return 0;
 }
