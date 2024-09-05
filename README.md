@@ -35,35 +35,70 @@ These functions are essential for string manipulation and file I/O in C, and imp
 - **libasm.a**: This is the compiled static library containing the assembly implementations.
 - **main.c**: A simple C program used to test the functions implemented in assembly.
 
-## Functions Implemented in Assembly
+# Functions Implemented in Assembly
 
 ### 1. `ft_strlen`
 
-This function calculates the length of a null-terminated string. The implementation in assembly uses a loop to iterate through the string until the null terminator (`\0`) is encountered. The length is then returned.
+This function calculates the length of a null-terminated (`\0`) string. The assembly implementation uses a loop to traverse the string until the null character is encountered, then returns the length.
+
+**Key instructions used:**
+- **`mov`**: To load and store values in registers.
+- **`cmp`**: To compare each character with `0` (the null character).
+- **`inc`**: To increment the string pointer and move through the characters.
+- **`ret`**: Returns the length as output.
 
 ### 2. `ft_strcpy`
 
-The `ft_strcpy` function copies a string from the source to the destination. It involves copying each byte one by one until the null terminator is reached.
+The `ft_strcpy` function copies a string from the source to the destination, byte by byte, until the null character (`\0`) is encountered.
+
+**Key instructions used:**
+- **`mov`**: To transfer each byte from the source to the destination.
+- **`inc`**: To move forward in both strings (source and destination).
+- **`cmp`** and **`jnz`**: To loop until the null character is copied.
+- **`ret`**: Returns the destination pointer.
 
 ### 3. `ft_strcmp`
 
-This function compares two strings byte by byte. It returns `0` if they are equal, a negative value if the first string is less than the second, and a positive value if the first string is greater.
+This function compares two strings, byte by byte. It returns `0` if they are equal, a negative value if the first string is less than the second, and a positive value if the first string is greater.
+
+**Key instructions used:**
+- **`cmp`**: To compare the bytes of the two strings.
+- **`jne`**: To detect a difference between the strings and jump to the end.
+- **`movzx`** and **`sub`**: To calculate and return the difference between the differing characters.
 
 ### 4. `ft_write`
 
-The `ft_write` function is a system call wrapper for writing data to a file descriptor. It leverages the `syscall` instruction to invoke the kernel's write functionality.
+The `ft_write` function is a wrapper around the **`write`** system call, used to write data to a file descriptor. It uses the **`syscall`** instruction to invoke the kernel's write functionality.
+
+**Key instructions used:**
+- **`mov`**: To load the system call number (1 for `write`) into the **`rax`** register.
+- **`syscall`**: To execute the system call.
 
 ### 5. `ft_read`
 
-Similar to `ft_write`, `ft_read` is a wrapper for the read system call. It reads data from a file descriptor into a buffer.
+The `ft_read` function is similar to `ft_write`, but it is used to read data from a file descriptor into a buffer. It also uses the **`syscall`** instruction.
+
+**Key instructions used:**
+- **`mov`**: To load the system call number (0 for `read`) into the **`rax`** register.
+- **`syscall`**: To execute the system call.
+- **`test`** and **`js`**: To check for errors and handle them properly.
 
 ### 6. `ft_strdup`
 
-This function duplicates a string by first calculating its length, allocating memory with `malloc`, and copying the string into the newly allocated memory.
+This function duplicates a string. It starts by calculating the length of the string, allocates memory with **`malloc`**, and then copies the string into the newly allocated memory.
+
+**Key instructions used:**
+- **`call`**: To call the **`malloc`** function and allocate memory.
+- Use of **`ft_strcpy`** to copy the string into the allocated memory.
+- Error handling to check if **`malloc`** returned **`NULL`**.
 
 ## Error Handling
 
-For system calls like `ft_read` and `ft_write`, it is crucial to handle errors properly by checking the return values and setting `errno` appropriately. This project uses the external `errno_location` to set the global error variable `errno` when needed.
+For system calls like `ft_read` and `ft_write`, it is essential to handle errors correctly. Return values must be checked, and the **`errno`** variable should be set when an error is detected. This project uses the external function **`errno_location`** to set the global **`errno`** variable when necessary.
+
+**Key instructions for error handling:**
+- **`test`** and **`js`**: To check for negative return values (indicating an error).
+- **`call errno_location`**: To update **`errno`** in case of an error.
 
 ## Compilation and Execution
 
